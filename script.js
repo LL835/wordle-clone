@@ -17,7 +17,6 @@ deleteKey.addEventListener("click", deleteLastLetter);
 
 document.addEventListener("keyup", (e) => {
     let keyPressed = e.key;
-    // console.log(keyPressed)
     if (keyPressed === "Enter"){
         guessWord();
     }
@@ -49,6 +48,7 @@ function addLetter(key){
 // Function submits the user's guess
 function guessWord(){
     if (!gameRunning) return;
+    // Find out what the user's guess is by calling getCurrentGuess().
     const userGuess = getCurrentGuess();
     // If guess is less than five letters, don't accept it. 
     if (userGuess.length < 5) {
@@ -56,14 +56,20 @@ function guessWord(){
         return;
     }
     // If more than five letters, accept.
-    alert (`You guessed "${userGuess}"`)
+    alert (`You guessed "${userGuess}"`);
+
+    // <------------ PLACEHOLDER ------------>
     // [Call function to check whether guess is in dictionary.]
     // [If word is in dictionary, compare it against the secret word.]
     // [if user has successfully guessed the word, end game]
-    currentRowNo += 1;
-    if (currentRowNo === 7) gameOver();
-    guessesLeft = 5;
+    // <------------------------------------>
 
+
+    // Go to next row and reset number of guesses
+    currentRowNo += 1;
+    guessesLeft = 5;
+    // If there are no more rows, end the game.
+    if (currentRowNo === 7) gameOver();
 
     // Highlight which row the user is currently on.
     tiles.forEach(tile => {
