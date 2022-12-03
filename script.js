@@ -1,20 +1,25 @@
 let currentRowNo = 1;
 let guessesLeft = 5;
+let gameRunning = true;
 
 const letterKeys = document.querySelectorAll(".letter");
 const enterKey = document.querySelector(".enter-key");
 const deleteKey = document.querySelector(".del-key");
+const tiles = document.querySelectorAll(".tile")
 
 // <========== EVENT LISTENERS ==========>
 letterKeys.forEach(letter => letter.addEventListener("click", (e) => {
     addLetter(e.target.innerText)
 }));
 enterKey.addEventListener("click", guessWord);
+
 deleteKey.addEventListener("click", deleteLastLetter);
+
 
 // <========== FUNCTIONS ==========>
 // Function adds a letter to first empty tile in a row
 function addLetter(key){
+    if (!gameRunning) return;
     // If guessesLeft = 0, user has spelled a 5-letter word. Stop them entering any more.
     if (guessesLeft === 0) return; 
     // Otherwise, find the current row.
@@ -27,11 +32,64 @@ function addLetter(key){
     guessesLeft -= 1;
 }
 
+// Function submits the user's guess
 function guessWord(){
-// Code to submit user's guess
-    
+    if (!gameRunning) return;
+    const userGuess = getCurrentGuess();
+    // If guess is less than five letters, don't accept it. 
+    if (userGuess.length < 5) {
+        alert("Your guess must be five letters!");
+        return;
+    }
+    // If more than five letters, accept.
+    alert (`You guessed "${userGuess}"`)
+    // [Call function to check whether guess is in dictionary.]
+    // [If word is in dictionary, compare it against the secret word.]
+    // [if user has successfully guessed the word, end game]
+    currentRowNo += 1;
+    if (currentRowNo === 7) gameOver();
+    guessesLeft = 5;
+
+
+    // Highlight which row the user is currently on.
+    tiles.forEach(tile => {
+        tile.dataset.status="inactive"
+    });
+    const activeRow = document.querySelectorAll(`[data-row-no="${currentRowNo}"]`);
+    activeRow.forEach(tile => {
+        tile.dataset.status="active"
+    })
 }
 
+function getCurrentGuess(){
+    // Find the current row.
+    const activeRow = document.querySelectorAll(`[data-row-no="${currentRowNo}"]`);
+    // Loop through the row to find the word that the user guessed.
+    let guess = "";
+    for (let i = 0; i < activeRow.length; i++){
+        guess += activeRow[i].innerText;
+    }
+    return guess;
+}
+
+// Function deletes the last letter in the row
 function deleteLastLetter(){
-// Code to delete last letter goes here;
+    if (!gameRunning) return;
+    // Find the current row.
+    const activeRow = document.querySelectorAll(`[data-row-no="${currentRowNo}"]`);
+    // Find the current guess
+    const currentWord = getCurrentGuess();
+    // Find out which tile the last letter is in
+    const lastLetterIndex = currentWord.length - 1;
+    // If no letters have been added to the current row yet, do nothing
+    if (lastLetterIndex < 0) return;
+    // Otherwise, clear the tile's content.
+    activeRow[lastLetterIndex].textContent = "";
+    // Add a guess back
+    guessesLeft += 1;
+}
+
+function gameOver(){
+    gameRunning = false;
+    // alert("You've used up all your guesses")
 }
