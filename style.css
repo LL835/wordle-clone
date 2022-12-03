@@ -30,9 +30,14 @@ body {
   
 }
 .tile {
-    border: solid 1px #00000050;
+    border: solid 2px #00000030;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 .keyboard {
     display: grid;
@@ -46,6 +51,8 @@ body {
     padding: 5px;
     grid-column: span 2;
     font-size: inherit;
+    border-radius: 2px;
+    border: solid 1px #00000030;
 }
 .key.enter-key, .key.del-key {
     grid-column: span 3;
