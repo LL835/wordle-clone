@@ -15,6 +15,20 @@ enterKey.addEventListener("click", guessWord);
 
 deleteKey.addEventListener("click", deleteLastLetter);
 
+document.addEventListener("keyup", (e) => {
+    let keyPressed = e.key;
+    // console.log(keyPressed)
+    if (keyPressed === "Enter"){
+        guessWord();
+    }
+    if (keyPressed === "Backspace"){
+        deleteLastLetter();
+    }
+    if (keyPressed.length > 1) return;
+    if (/[a-z]/i.test(keyPressed)) {
+        addLetter(keyPressed.toUpperCase())
+      }
+})
 
 // <========== FUNCTIONS ==========>
 // Function adds a letter to first empty tile in a row
